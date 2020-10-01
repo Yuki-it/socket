@@ -32,7 +32,7 @@ def server():
 		
 				print('Waiting message')
 				message  = clientsocket.recv(M_SIZE)
-				tmp = struct.unpack('iddddd',message)	
+				tmp = struct.unpack('iiddddd',message)	
 				print(tmp)
 			except OSError:
 				break
@@ -42,15 +42,15 @@ def server():
 				break
 			
 			# 受信したデータをそのまま送り返す (エコー)
-			#sent_message = message
-			#while True:
-			#	# 送信できたバイト数が返ってくる
-			#	sent_len = clientsocket.send(sent_message)
-			#	# 全て送れたら完了
-			#	if sent_len == len(sent_message):
-			#		break
-			#	# 送れなかった分をもう一度送る
-			#	sent_message = sent_message[sent_len:]
+			sent_message = message
+			while True:
+				# 送信できたバイト数が返ってくる
+				sent_len = clientsocket.send(sent_message)
+				# 全て送れたら完了
+				if sent_len == len(sent_message):
+					break
+				# 送れなかった分をもう一度送る
+				sent_message = sent_message[sent_len:]
 			#print('Send: {}'.format(message))
 
 		# 後始末

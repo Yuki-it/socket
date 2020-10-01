@@ -13,6 +13,7 @@
 enum classname{car = 1, person = 2, other = 0};
 
 struct detection{
+    int num;
     int classtype;
     double confidence;
     double box[4];
@@ -20,6 +21,8 @@ struct detection{
 
 
 int main() {
+  
+  int us = 1*5000; 
   /* IPアドレス、ポート番号、ソケット */
   //char destination[80];
   unsigned short port = 9876;
@@ -58,6 +61,7 @@ int main() {
 	person = 2,
 	other = 0};
 
+  int i = 0;
 
   /* パケット送出 */
   while(1) {
@@ -70,14 +74,16 @@ int main() {
 
 	classname label = static_cast<classname>(rand() % 3);
 
- 	detection detect = {label,confidence,{x,y,w,h}};
+ 	detection detect = {i,label,confidence,{x,y,w,h}};
 
     	printf("sending...\n");
         if( send(destSocket, (char*)&detect, sizeof(detect), 0) < 0 ) {
             perror( "send" );
         };
 
-    sleep(1);
+    i++;
+
+    usleep(us);
 
   }
 
